@@ -5,9 +5,10 @@ import { cn } from '@/lib/utils'
 
 interface Props {
   x: number
+  onHandleRef: (el: HTMLDivElement | null) => void
 }
 
-export function TrackHandle({ x }: Props) {
+export function TrackHandle({ x, onHandleRef }: Props) {
   const { ref } = useDraggable({
     id: 'date'
   })
@@ -18,24 +19,14 @@ export function TrackHandle({ x }: Props) {
       className={cn('absolute top-[50%] left-0 z-1 -translate-y-[50%]', 'h-7 w-full')}
       style={{ transform: `translateX(${x}px)` }}
     >
-      <Group
-        style={{
-          width: '100%',
-          height: '100%'
-        }}
-      >
-        <Panel
-          defaultSize={10}
-          minSize={0}
-          style={{ background: 'gray', opacity: 0.1 }}
-          onResize={() => {}}
-        >
+      <Group className="h-full w-full">
+        <Panel defaultSize={0} minSize={1}>
           &nbsp;
         </Panel>
 
         <Separator style={{ background: 'yellow', margin: '0 2px' }} />
 
-        <Panel defaultSize={10} minSize={0} onResize={() => {}}>
+        <Panel defaultSize={10} elementRef={onHandleRef} minSize={0} onResize={e => {}}>
           <div
             className={cn(
               'flex items-center justify-center',
@@ -50,12 +41,7 @@ export function TrackHandle({ x }: Props) {
 
         <Separator style={{ background: 'yellow', margin: '0 2px' }} />
 
-        <Panel
-          defaultSize={10}
-          minSize={0}
-          style={{ background: 'red', opacity: 0.1 }}
-          onResize={() => {}}
-        >
+        <Panel defaultSize={0} minSize={1}>
           &nbsp;
         </Panel>
       </Group>
