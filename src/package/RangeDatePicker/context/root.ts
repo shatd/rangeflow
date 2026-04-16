@@ -3,15 +3,19 @@ import { createStore } from 'zustand/vanilla'
 
 type UpdaterFunction = (state: AppState) => void
 
+interface Date {
+  start: number
+  end: number
+  duration: number
+}
+
 export interface AppState {
   range: {
     start: string
     end: string
   }
-  date: {
-    start: number
-    end: number
-    duration: number
+  date: Date & {
+    default_value: Date
   }
 }
 

@@ -29,9 +29,9 @@ export default defineConfig({
     tailwindcss(),
     dts({
       tsconfigPath: './tsconfig.lib.json',
-      include: ['src/package/DatePicker/**/*'],
+      include: ['src/package/RangeDatePicker/**/*'],
       outDir: 'dist',
-      entryRoot: 'src/package/DatePicker'
+      entryRoot: 'src/package/RangeDatePicker'
     })
   ],
   publicDir: false,
@@ -41,7 +41,7 @@ export default defineConfig({
     sourcemap: false,
     cssCodeSplit: false,
     lib: {
-      entry: resolve(__dirname, 'src/package/DatePicker/index.tsx'),
+      entry: resolve(__dirname, 'src/package/RangeDatePicker/index.tsx'),
       formats: ['es'],
       fileName: () => 'index.js',
       cssFileName: 'style'

@@ -2,8 +2,8 @@ import clsx from 'clsx'
 import { motion } from 'motion/react'
 import { useState } from 'react'
 
-import { DateRanges } from '../constants/date-ranges'
-import { useStore } from '../hooks/use-store'
+import { DateRanges } from '../../constants/date-ranges'
+import { useStore } from '../../hooks/use-store'
 
 export function RangeTabs() {
   const update = useStore(state => state.update)
@@ -19,7 +19,7 @@ export function RangeTabs() {
         {DateRanges.map((tab, index) => (
           <button
             key={tab.id}
-            className={clsx('relative z-1 flex items-center px-2 py-1')}
+            className={clsx('relative z-1 flex items-center px-1.5 py-1')}
             onClick={() => {
               update(draft => {
                 draft.range.start = tab.start
@@ -29,7 +29,13 @@ export function RangeTabs() {
               handleTabChange(index)
             }}
           >
-            <span className="relative z-1 text-xs text-gray-700">{tab.label}</span>
+            <span
+              className={clsx('relative z-1 text-xs tracking-tight text-gray-700', {
+                'font-medium text-gray-900': activeIndex === index
+              })}
+            >
+              {tab.label}
+            </span>
 
             {activeIndex === index && (
               <motion.div

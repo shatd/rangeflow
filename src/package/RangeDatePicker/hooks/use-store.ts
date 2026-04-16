@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { useStore as useBaseStore } from 'zustand'
 
-import { type Actions, AppContext, type AppState } from '../context'
+import { type Actions, AppContext, type AppState } from '../context/root'
 
 type Selector<U> = (state: AppState & Actions) => U
 

@@ -1,15 +1,18 @@
 import clsx from 'clsx'
 import { memo, useMemo } from 'react'
 
-import { useDaysInRange } from '../hooks/use-days-in-range'
-import { useStore } from '../hooks/use-store'
+import { useDaysInRange } from '../../hooks/use-days-in-range'
+import { useStore } from '../../hooks/use-store'
+import { interpolate } from '../../utils/interpolate'
 
 export const SliderValue = memo(() => {
-  const daysInRange = useDaysInRange()
   const duration = useStore(state => state.date.duration)
+  const range = useStore(state => state.range)
+  const daysInRange = useDaysInRange(range)
 
   const label = useMemo(() => {
-    const days = Math.max(Math.round(daysInRange * (duration / 100)), 1)
+    const interpolated = interpolate([5, 100], [1, 100])(Math.ceil(duration))
+    const days = Math.max(Math.round(daysInRange * (interpolated / 100)), 1)
 
     if (duration < 10) {
       return `${days}D`
@@ -23,7 +26,7 @@ export const SliderValue = memo(() => {
       data-track-handle="true"
       className={clsx(
         'flex h-full w-[70%] cursor-grab items-center justify-center',
-        'text-xs font-medium text-gray-900'
+        'text-xs font-medium text-nowrap text-gray-900'
       )}
     >
       {label}

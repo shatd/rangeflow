@@ -2,9 +2,9 @@ import clsx from 'clsx'
 import dayjs from 'dayjs'
 import { memo, useMemo } from 'react'
 
-import { OdometerText } from '../components/OdometerText'
-import { useDaysInRange } from '../hooks/use-days-in-range'
-import { useStore } from '../hooks/use-store'
+import { OdometerText } from '../../animations/OdometerText'
+import { useDaysInRange } from '../../hooks/use-days-in-range'
+import { useStore } from '../../hooks/use-store'
 
 const TOTAL_LABELS = 6
 
@@ -22,7 +22,7 @@ function getLabelFormat(daysInRange: number): string {
 
 export const DateTrail = memo(() => {
   const range = useStore(state => state.range)
-  const daysInRange = useDaysInRange()
+  const daysInRange = useDaysInRange(range)
 
   const labels = useMemo(() => {
     const format = getLabelFormat(daysInRange)
@@ -32,7 +32,7 @@ export const DateTrail = memo(() => {
     return Array.from({ length: TOTAL_LABELS }, (_, i) => {
       const ratio = i / (TOTAL_LABELS - 1)
 
-      return start.add(Math.round(totalMs * ratio), 'ms').format(format)
+      return start.add(totalMs * ratio, 'ms').format(format)
     })
   }, [range.start, range.end, daysInRange])
 

@@ -1,4 +1,4 @@
-import { RangeTabs } from './RangeTabs'
+import { RangeTabs } from './RangeTabs.tsx'
 import { SelectedDate } from './SelectedDate.tsx'
 
 export function DateRange() {

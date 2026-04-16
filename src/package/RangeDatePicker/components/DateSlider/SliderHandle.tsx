@@ -10,28 +10,26 @@ import {
   Separator
 } from 'react-resizable-panels'
 
-import { useStore } from '../hooks/use-store'
+import { useStore } from '../../hooks/use-store'
 import { SliderValue } from './SliderValue'
 
 const LEFT_SPACER = 'left-spacer'
 const RIGHT_SPACER = 'right-spacer'
 const HANDLE = 'track-handler'
 
-const HANDLE_MIN_SIZE = 10
+const HANDLE_MIN_SIZE = 5
 
 interface Props {
   onHandleRef: (el: HTMLDivElement | null) => void
 }
 
 export function SliderHandle({ onHandleRef }: Props) {
+  const defaultValues = useStore(state => state.date.default_value)
   const update = useStore(state => state.update)
 
   const groupRef = useRef<GroupImperativeHandle | null>(null)
   const groupElementRef = useRef<HTMLDivElement | null>(null)
   const layoutRef = useRef<Layout | null>(null)
-
-  const interpolate = (x: number) =>
-    1 + ((x - HANDLE_MIN_SIZE) * (100 - 1)) / (100 - HANDLE_MIN_SIZE)
 
   const separatorClassName = clsx(
     'h-3/4 w-0.75 self-center rounded-full transition-[background-color,opacity] duration-150',
@@ -95,7 +93,7 @@ export function SliderHandle({ onHandleRef }: Props) {
     >
       <Group className="group h-full w-full" elementRef={groupElementRef} groupRef={groupRef}>
         <Panel
-          defaultSize="40%"
+          defaultSize={`${defaultValues.start}%`}
           id={LEFT_SPACER}
           minSize={0}
           onResize={data => {
@@ -110,13 +108,13 @@ export function SliderHandle({ onHandleRef }: Props) {
         <Separator className={separatorClassName} />
 
         <Panel
-          defaultSize="20%"
+          defaultSize={`${defaultValues.duration}%`}
           elementRef={onHandleRef}
           id={HANDLE}
           minSize={`${HANDLE_MIN_SIZE}%`}
           onResize={data => {
             update(draft => {
-              draft.date.duration = interpolate(data.asPercentage)
+              draft.date.duration = data.asPercentage
             })
           }}
         >
@@ -136,7 +134,7 @@ export function SliderHandle({ onHandleRef }: Props) {
         <Separator className={separatorClassName} />
 
         <Panel
-          defaultSize="40%"
+          defaultSize={`${defaultValues.end}%`}
           id={RIGHT_SPACER}
           minSize={0}
           onResize={data => {
