@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import { memo, useMemo } from 'react'
 
+import { HANDLE_MIN_SIZE } from '../../constants/slider'
 import { useDaysInRange } from '../../hooks/use-days-in-range'
 import { useStore } from '../../hooks/use-store'
 import { interpolate } from '../../utils/interpolate'
@@ -11,7 +12,7 @@ export const SliderValue = memo(() => {
   const daysInRange = useDaysInRange(range)
 
   const label = useMemo(() => {
-    const interpolated = interpolate([5, 100], [1, 100])(Math.ceil(duration))
+    const interpolated = interpolate([HANDLE_MIN_SIZE, 100], [1, 100])(Math.ceil(duration))
     const days = Math.max(Math.round(daysInRange * (interpolated / 100)), 1)
 
     if (duration < 10) {

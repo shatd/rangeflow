@@ -10,14 +10,13 @@ import {
   Separator
 } from 'react-resizable-panels'
 
+import { HANDLE_MIN_SIZE } from '../../constants/slider'
 import { useStore } from '../../hooks/use-store'
 import { SliderValue } from './SliderValue'
 
 const LEFT_SPACER = 'left-spacer'
 const RIGHT_SPACER = 'right-spacer'
 const HANDLE = 'track-handler'
-
-const HANDLE_MIN_SIZE = 5
 
 interface Props {
   onHandleRef: (el: HTMLDivElement | null) => void
