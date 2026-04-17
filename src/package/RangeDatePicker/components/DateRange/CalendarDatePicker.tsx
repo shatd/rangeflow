@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import type { ReactNode } from 'react'
 
 import { SLIDER_LEFT_SPACER, SLIDER_RIGHT_SPACER, SLIDER_THUMB } from '../../constants/slider'
@@ -54,8 +55,8 @@ export function CalendarDatePicker({ children }: Props) {
             }
 
             const nextSelected = {
-              from: nextDate.from,
-              to: nextDate.to
+              from: dayjs(nextDate.from).startOf('day').toDate(),
+              to: dayjs(nextDate.to).startOf('day').toDate()
             }
 
             update(draft => {
