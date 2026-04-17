@@ -1,8 +1,6 @@
 import dayjs from 'dayjs'
 import type { ReactNode } from 'react'
 
-import { SLIDER_LEFT_SPACER, SLIDER_RIGHT_SPACER, SLIDER_THUMB } from '../../constants/slider'
-import { useDatePickerRefs } from '../../hooks/use-date-picker-refs'
 import { useDatePickerStore } from '../../hooks/use-date-picker-store'
 import { createSliderValues } from '../../utils/create-slider-values'
 import { Calendar } from '../Calendar'
@@ -17,32 +15,10 @@ export function CalendarDatePicker({ children }: Props) {
   const range = useDatePickerStore(state => state.range)
   const date = useDatePickerStore(state => state.selected_date)
 
-  const {
-    slider: { root: rootRef }
-  } = useDatePickerRefs()
-
-  const handleClose = () => {
-    const { left, right, size } = createSliderValues(range, date)
-
-    rootRef.current?.setLayout({
-      ...rootRef.current.getLayout(),
-      [SLIDER_THUMB]: size,
-      [SLIDER_LEFT_SPACER]: left,
-      [SLIDER_RIGHT_SPACER]: right
-    })
-  }
-
   return (
-    <Popover
-      modal
-      onOpenChange={isOpen => {
-        if (!isOpen) {
-          handleClose()
-        }
-      }}
-    >
+    <Popover modal>
       <PopoverTrigger className="cursor-pointer">{children}</PopoverTrigger>
-      <PopoverContent align="start">
+      <PopoverContent align="start" sideOffset={10}>
         <Calendar
           defaultMonth={date.from}
           mode="range"

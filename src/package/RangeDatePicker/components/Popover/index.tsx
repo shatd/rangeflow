@@ -16,7 +16,7 @@ export const PopoverContent = memo(
           align={align}
           sideOffset={sideOffset}
           className={clsx(
-            'z-50 rounded-lg border border-gray-200 bg-white p-2 shadow-md shadow-gray-200 outline-none',
+            'z-50 rounded-lg border border-gray-200 p-2 shadow-md shadow-gray-200 backdrop-blur-[10px] outline-none',
             className
           )}
           {...props}
