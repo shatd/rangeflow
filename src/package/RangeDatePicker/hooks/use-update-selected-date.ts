@@ -1,30 +1,49 @@
 import dayjs from 'dayjs'
 import { useCallback } from 'react'
 
+import { SLIDER_THUMB_MIN_SIZE } from '../constants/slider'
+import { clamp } from '../utils/clamp'
+import { interpolate } from '../utils/interpolate'
 import { useDatePickerStore } from './use-date-picker-store'
-import { useDaysInRange } from './use-days-in-range'
+
+// Inverse of the `toVisual` mapping in createSliderValues: [MIN, 100] → [1, 100].
+const fromVisual = interpolate([SLIDER_THUMB_MIN_SIZE, 100], [1, 100])
 
 export function useUpdateSelectedDate() {
   const update = useDatePickerStore(state => state.update)
-  const slider = useDatePickerStore(state => state.slider)
+
   const range = useDatePickerStore(state => state.range)
-  const daysInRange = useDaysInRange(range)
+  const slider = useDatePickerStore(state => state.slider)
 
   return useCallback(
-    (sliderSize: number) => {
-      const startDay = Math.abs((slider.left / 100) * daysInRange)
-      const totalDays = Math.max(daysInRange * (sliderSize / 100), 1)
+    (size: number) => {
+      const start = dayjs(range.start).startOf('day')
+      const daysInRange = dayjs(range.end).startOf('day').diff(start, 'day')
 
-      const from = dayjs(range.start).add(startDay, 'day').toDate()
-      const to = dayjs(range.start)
-        .add(startDay + totalDays, 'day')
-        .toDate()
+      const sizePercent = fromVisual(size)
+      const leftSpacerPercent = slider.left + (size - sizePercent)
+
+      const startDay = clamp(
+        Math.round((leftSpacerPercent * daysInRange) / 100),
+        0,
+        daysInRange - 1
+      )
+
+      const trailingDays = Math.round((slider.right * daysInRange) / 100)
+
+      // Enforce at least a 1-day selection: the thumb's visual minSize maps
+      // back to ~1% of real range, which rounds to 0 days on short ranges.
+      const totalDays = Math.max(daysInRange - startDay - trailingDays, 1)
 
       update(draft => {
-        draft.slider.size = sliderSize
-        draft.selected_date = { from, to }
+        draft.slider.size = size
+
+        draft.selected_date = {
+          from: start.add(startDay, 'day').toDate(),
+          to: start.add(startDay + totalDays, 'day').toDate()
+        }
       })
     },
-    [update, range.start, daysInRange, slider.left]
+    [range.start, range.end, slider.left, slider.right, update]
   )
 }

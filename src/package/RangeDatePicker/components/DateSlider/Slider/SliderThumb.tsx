@@ -13,7 +13,6 @@ interface Props {
 }
 
 export function SliderThumb({ onHandleRef }: Props) {
-  const update = useDatePickerStore(state => state.update)
   const size = useDatePickerStore(state => state.slider.size)
   const updateSelectedDate = useUpdateSelectedDate()
 
@@ -28,10 +27,6 @@ export function SliderThumb({ onHandleRef }: Props) {
       onResize={({ asPercentage }) => {
         startTransition(() => {
           updateSelectedDate(asPercentage)
-
-          update(draft => {
-            draft.slider.size = asPercentage
-          })
         })
       }}
     >

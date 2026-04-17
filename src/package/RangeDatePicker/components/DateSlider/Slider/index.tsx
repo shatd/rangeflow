@@ -18,7 +18,6 @@ interface Props {
 }
 
 export function Slider({ onHandleRef }: Props) {
-  const update = useDatePickerStore(state => state.update)
   const updateSelectedDate = useUpdateSelectedDate()
 
   const {
@@ -62,22 +61,18 @@ export function Slider({ onHandleRef }: Props) {
       }
 
       const deltaPercent = (event.operation.transform.x / groupElementRef.current.clientWidth) * 100
+      const layout = layoutRef.current
 
       const data = {
-        ...layoutRef.current,
-        [SLIDER_LEFT_SPACER]: layoutRef.current[SLIDER_LEFT_SPACER] + deltaPercent,
-        [SLIDER_RIGHT_SPACER]: layoutRef.current[SLIDER_RIGHT_SPACER] - deltaPercent
+        ...layout,
+        [SLIDER_LEFT_SPACER]: layout[SLIDER_LEFT_SPACER] + deltaPercent,
+        [SLIDER_RIGHT_SPACER]: layout[SLIDER_RIGHT_SPACER] - deltaPercent
       }
 
       rootRef.current.setLayout(data)
 
       startTransition(() => {
-        update(draft => {
-          draft.slider.left = data[SLIDER_LEFT_SPACER]
-          draft.slider.right = data[SLIDER_RIGHT_SPACER]
-        })
-
-        updateSelectedDate(data?.[SLIDER_THUMB])
+        updateSelectedDate(layout[SLIDER_THUMB])
       })
     },
     onDragEnd: () => {
