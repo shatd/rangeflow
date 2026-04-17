@@ -4,31 +4,50 @@ import { motion } from 'motion/react'
 import { useMemo } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
-import { DefaultRangesList } from '../../constants/date-ranges'
 import { useDatePickerStore } from '../../hooks/use-date-picker-store'
 import { useApplySliderLayout } from './hooks/use-apply-slider-layout'
 
 export function RangeTabs() {
   const list = useDatePickerStore(state => state.ranges)
   const update = useDatePickerStore(state => state.update)
+
   const { from, to } = useDatePickerStore(
     useShallow(state => ({ from: state.range.from, to: state.range.to }))
   )
 
+  const disabledBefore = useDatePickerStore(state => state.disabled?.before)
+  const disabledAfter = useDatePickerStore(state => state.disabled?.after)
+
   useApplySliderLayout()
+
+  const filteredList = useMemo(
+    () =>
+      list.filter(item => {
+        if (disabledBefore && dayjs(item.from).isBefore(disabledBefore, 'day')) {
+          return false
+        }
+
+        if (disabledAfter && dayjs(item.to).isAfter(disabledAfter, 'day')) {
+          return false
+        }
+
+        return true
+      }),
+    [list, disabledBefore, disabledAfter]
+  )
 
   const activeIndex = useMemo(
     () =>
-      DefaultRangesList.findIndex(
+      filteredList.findIndex(
         item => dayjs(item.from).isSame(from, 'day') && dayjs(item.to).isSame(to, 'day')
       ),
-    [from, to]
+    [filteredList, from, to]
   )
 
   return (
     <div className="flex items-center justify-center select-none">
       <div className="flex items-center">
-        {list.map((item, index) => (
+        {filteredList.map((item, index) => (
           <button
             key={`${item.from.getDate()}_${item.to.getDate()}`}
             className={clsx('relative z-1 flex items-center px-1.5 py-1')}
