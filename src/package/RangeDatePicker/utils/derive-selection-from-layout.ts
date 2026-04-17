@@ -25,18 +25,24 @@ export function deriveSelectionFromLayout(layout: Layout, range: DateRange) {
   const daysInRange = dayjs(range.to).startOf('day').diff(start, 'day')
 
   // Undo the inflation createSliderValues applied to size (absorbed by the
-  // left spacer). The right spacer is already raw, so no inversion there.
-  const rawLeft = left + (size - fromVisual(size))
+  // left spacer). The right spacer is already unscaled, so no inversion there.
+  const actualSize = fromVisual(size)
+  const actualLeft = left + (size - actualSize)
 
-  const startDay = clamp(Math.round((rawLeft * daysInRange) / 100), 0, daysInRange - 1)
-  const trailingDays = Math.round((right * daysInRange) / 100)
-
-  // At the thumb's minimum visual size the selection is always one day,
-  // regardless of range length.
+  // Derive totalDays from the thumb width (the authoritative value), not from
+  // the leftover between startDay and trailingDays — otherwise independent
+  // rounding of the two spacers can flip the selection length by ±1 day
+  // while the user is only translating the thumb across the track.
   const totalDays =
     Math.round(size) <= SLIDER_THUMB_MIN_SIZE
       ? 1
-      : Math.max(daysInRange - startDay - trailingDays, 1)
+      : Math.max(Math.round((actualSize * daysInRange) / 100), 1)
+
+  const startDay = clamp(
+    Math.round((actualLeft * daysInRange) / 100),
+    0,
+    Math.max(daysInRange - totalDays, 0)
+  )
 
   return {
     size,

@@ -33,7 +33,7 @@ export function SliderTrack({ onHandleRef }: Props) {
   }
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center select-none">
       <RangeStepButton onClick={handleMoveBackward}>
         <DoubleChevronLeftIcon />
       </RangeStepButton>
