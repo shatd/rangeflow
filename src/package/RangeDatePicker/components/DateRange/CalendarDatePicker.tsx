@@ -16,6 +16,7 @@ export function CalendarDatePicker({ children }: Props) {
   const update = useDatePickerStore(state => state.update)
   const range = useDatePickerStore(state => state.range)
   const date = useDatePickerStore(state => state.selected_date)
+  const disabled = useDatePickerStore(state => state.disabled)
   const CalendarProps = useDatePickerStore(state => state.CalendarProps)
 
   const {
@@ -71,6 +72,7 @@ export function CalendarDatePicker({ children }: Props) {
           numberOfMonths={2}
           showOutsideDays={false}
           {...CalendarProps}
+          disabled={disabled}
           mode="range"
           selected={date}
           onSelect={nextDate => {

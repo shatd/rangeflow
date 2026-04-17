@@ -15,6 +15,7 @@ export function ContextProvider({
   children,
   defaultRange,
   defaultSelected,
+  disabled,
   ranges = DefaultRangesList,
   CalendarProps,
   onChange
@@ -25,6 +26,7 @@ export function ContextProvider({
   const [store] = useState(() =>
     createDatePickerStore({
       ranges,
+      disabled,
       range: defaultRange,
       default_range: defaultRange,
       selected_date: defaultSelected,

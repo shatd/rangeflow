@@ -3,7 +3,7 @@ import type { DayPickerProps } from 'react-day-picker'
 import type { GroupImperativeHandle } from 'react-resizable-panels'
 import { createStore } from 'zustand/vanilla'
 
-import type { DateRange, RangeListItem } from '../types'
+import type { DateDisabled, DateRange, RangeListItem } from '../types'
 
 type UpdaterFunction = (state: DatePickerState) => void
 
@@ -18,6 +18,7 @@ export interface DatePickerState {
   ranges: RangeListItem[]
   selected_date: DateRange
   default_range: DateRange
+  disabled?: DateDisabled
   slider: {
     left: number
     right: number

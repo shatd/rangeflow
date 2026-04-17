@@ -23,7 +23,7 @@ export function RangeTabs() {
   )
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center select-none">
       <div className="flex items-center">
         {list.map((item, index) => (
           <button
