@@ -17,7 +17,13 @@ const fromVisual = interpolate([SLIDER_THUMB_MIN_SIZE, 100], [1, 100])
 
 export function useUpdateSelectedDate() {
   const update = useDatePickerStore(state => state.update)
-  const range = useDatePickerStore(state => state.range)
+
+  // Select as primitive timestamps: range.from/to are Dates and the store's
+  // update() clones state via structuredClone, so the Date references change
+  // on every update even when the values don't. Using .getTime() keeps this
+  // hook's callback identity stable across unrelated store writes.
+  const rangeFromMs = useDatePickerStore(state => state.range.from.getTime())
+  const rangeToMs = useDatePickerStore(state => state.range.to.getTime())
 
   return useCallback(
     (layout: Layout) => {
@@ -25,8 +31,8 @@ export function useUpdateSelectedDate() {
       const left = layout[SLIDER_LEFT_SPACER]
       const right = layout[SLIDER_RIGHT_SPACER]
 
-      const start = dayjs(range.from).startOf('day')
-      const daysInRange = dayjs(range.to).startOf('day').diff(start, 'day')
+      const start = dayjs(rangeFromMs).startOf('day')
+      const daysInRange = dayjs(rangeToMs).startOf('day').diff(start, 'day')
 
       // Undo the inflation createSliderValues applied to size (absorbed by the
       // left spacer). The right spacer is already raw, so no inversion there.
@@ -53,6 +59,6 @@ export function useUpdateSelectedDate() {
         }
       })
     },
-    [update, range.from, range.to]
+    [update, rangeFromMs, rangeToMs]
   )
 }

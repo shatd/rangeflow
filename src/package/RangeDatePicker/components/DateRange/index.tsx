@@ -1,5 +1,5 @@
+import { RangeTabs } from '../RangeTabs/index.tsx'
 import { CalendarDatePicker } from './CalendarDatePicker.tsx'
-import { RangeTabs } from './RangeTabs.tsx'
 import { SelectedDate } from './SelectedDate.tsx'
 
 export function DateRange() {
