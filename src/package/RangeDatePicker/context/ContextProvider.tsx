@@ -16,23 +16,20 @@ export function ContextProvider({
   defaultRange,
   defaultSelected,
   ranges = DefaultRangesList,
+  CalendarProps,
   onChange
 }: Props) {
-  const range = DefaultRangesList[0]
-
   const contextRefs = useContextRefs()
   const contextEvents = useContextEvents({ onChange })
 
   const [store] = useState(() =>
     createDatePickerStore({
       ranges,
-      range: {
-        from: range.from,
-        to: range.to
-      },
+      range: defaultRange,
       default_range: defaultRange,
       selected_date: defaultSelected,
-      slider: createSliderValues(range, defaultSelected)
+      slider: createSliderValues(defaultRange, defaultSelected),
+      CalendarProps
     })
   )
 

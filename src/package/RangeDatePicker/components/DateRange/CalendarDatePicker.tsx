@@ -16,6 +16,7 @@ export function CalendarDatePicker({ children }: Props) {
   const update = useDatePickerStore(state => state.update)
   const range = useDatePickerStore(state => state.range)
   const date = useDatePickerStore(state => state.selected_date)
+  const CalendarProps = useDatePickerStore(state => state.CalendarProps)
 
   const {
     slider: { root: rootRef }
@@ -67,10 +68,11 @@ export function CalendarDatePicker({ children }: Props) {
       <PopoverContent align="start" sideOffset={10}>
         <Calendar
           defaultMonth={date.from}
-          mode="range"
           numberOfMonths={2}
-          selected={date}
           showOutsideDays={false}
+          {...CalendarProps}
+          mode="range"
+          selected={date}
           onSelect={nextDate => {
             if (!nextDate?.from || !nextDate?.to) {
               return

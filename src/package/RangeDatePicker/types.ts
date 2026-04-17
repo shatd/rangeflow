@@ -1,3 +1,5 @@
+import type { DayPickerProps } from 'react-day-picker'
+
 export interface RangeListItem {
   label: string
   from: Date
@@ -13,5 +15,6 @@ export interface DatePickerProps {
   defaultSelected: DateRange
   defaultRange: DateRange
   ranges?: RangeListItem[]
+  CalendarProps?: DayPickerProps
   onChange: (date: DateRange) => void
 }

@@ -1,4 +1,5 @@
 import { createContext, type RefObject } from 'react'
+import type { DayPickerProps } from 'react-day-picker'
 import type { GroupImperativeHandle } from 'react-resizable-panels'
 import { createStore } from 'zustand/vanilla'
 
@@ -22,6 +23,7 @@ export interface DatePickerState {
     right: number
     size: number
   }
+  CalendarProps?: DayPickerProps
 }
 
 export interface DatePickerEvents {
