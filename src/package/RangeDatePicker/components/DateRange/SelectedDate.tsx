@@ -7,7 +7,7 @@ import { CalendarIcon } from '../../icons/CalendarIcon'
 export function SelectedDate() {
   const date = useDatePickerStore(state => state.selected_date)
 
-  const { start, end } = useMemo(() => {
+  const { from, to } = useMemo(() => {
     const today = dayjs()
 
     const start = dayjs(date.from)
@@ -16,16 +16,16 @@ export function SelectedDate() {
     const formatter = start.isSame(end, 'year') ? 'DD MMM' : 'DD MMM YYYY'
 
     const labels = {
-      start: start.format(formatter),
-      end: end.format(formatter)
+      from: start.format(formatter),
+      to: end.format(formatter)
     }
 
     if (today.isSame(start, 'day')) {
-      labels.start = 'Today'
+      labels.from = 'Today'
     }
 
     if (today.isSame(end, 'day')) {
-      labels.end = 'Today'
+      labels.to = 'Today'
     }
 
     return labels
@@ -34,9 +34,9 @@ export function SelectedDate() {
   return (
     <div className="hover:text-accent/90 text-accent flex items-center gap-2 text-xs font-medium select-none">
       <CalendarIcon />
-      {start}
+      {from}
       <span className="text-gray-400">—</span>
-      {end}
+      {to}
     </div>
   )
 }

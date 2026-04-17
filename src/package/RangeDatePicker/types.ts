@@ -1,6 +1,8 @@
+export type DateRange = {
+  from: Date
+  to: Date
+}
+
 export interface DatePickerProps {
-  default_selected: {
-    from: Date
-    to: Date
-  }
+  default_selected: DateRange
 }

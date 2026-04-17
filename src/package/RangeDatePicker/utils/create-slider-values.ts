@@ -1,20 +1,21 @@
 import dayjs from 'dayjs'
 
 import { SLIDER_THUMB_MIN_SIZE } from '../constants/slider'
+import type { DateRange } from '../types'
 import { clamp } from '../utils/clamp'
 import { interpolate } from '../utils/interpolate'
 
 const toVisual = interpolate([1, 100], [SLIDER_THUMB_MIN_SIZE, 100])
 
 export function createSliderValues(
-  range: { start: string; end: string },
+  range: DateRange,
   selected: {
     from: Date
     to: Date
   }
 ) {
-  const rangeStart = dayjs(range.start).startOf('day')
-  const daysInRange = dayjs(range.end).startOf('day').diff(rangeStart, 'day')
+  const rangeStart = dayjs(range.from).startOf('day')
+  const daysInRange = dayjs(range.to).startOf('day').diff(rangeStart, 'day')
 
   const fromDay = dayjs(selected.from).startOf('day')
   const toDay = dayjs(selected.to).startOf('day')

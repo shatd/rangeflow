@@ -25,8 +25,8 @@ export function useUpdateSelectedDate() {
       const left = layout[SLIDER_LEFT_SPACER]
       const right = layout[SLIDER_RIGHT_SPACER]
 
-      const start = dayjs(range.start).startOf('day')
-      const daysInRange = dayjs(range.end).startOf('day').diff(start, 'day')
+      const start = dayjs(range.from).startOf('day')
+      const daysInRange = dayjs(range.to).startOf('day').diff(start, 'day')
 
       // Undo the inflation createSliderValues applied to size (absorbed by the
       // left spacer). The right spacer is already raw, so no inversion there.
@@ -53,6 +53,6 @@ export function useUpdateSelectedDate() {
         }
       })
     },
-    [update, range.start, range.end]
+    [update, range.from, range.to]
   )
 }

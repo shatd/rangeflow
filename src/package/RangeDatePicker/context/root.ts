@@ -2,6 +2,8 @@ import { createContext, type RefObject } from 'react'
 import type { GroupImperativeHandle } from 'react-resizable-panels'
 import { createStore } from 'zustand/vanilla'
 
+import type { DateRange } from '../types'
+
 type UpdaterFunction = (state: DatePickerState) => void
 
 export interface DatePickerRefs {
@@ -11,18 +13,12 @@ export interface DatePickerRefs {
 }
 
 export interface DatePickerState {
-  range: {
-    start: string
-    end: string
-  }
+  range: DateRange
+  selected_date: DateRange
   slider: {
     left: number
     right: number
     size: number
-  }
-  selected_date: {
-    from: Date
-    to: Date
   }
 }
 

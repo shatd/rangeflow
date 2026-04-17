@@ -21,7 +21,10 @@ export function ContextProvider({ children, default_selected }: Props) {
 
   const [store] = useState(() =>
     createDatePickerStore({
-      range,
+      range: {
+        from: range.from,
+        to: range.to
+      },
       selected_date: default_selected,
       slider: createSliderValues(range, default_selected)
     })

@@ -3,8 +3,8 @@ import dayjs from 'dayjs'
 import { memo, useMemo } from 'react'
 
 import { OdometerText } from '../../animations/OdometerText'
-import { useDaysInRange } from '../../hooks/use-days-in-range'
 import { useDatePickerStore } from '../../hooks/use-date-picker-store'
+import { useDaysInRange } from '../../hooks/use-days-in-range'
 
 function getLabelFormat(daysInRange: number): string {
   if (daysInRange > 120) {
@@ -41,15 +41,15 @@ export const DateLabelsTrack = memo(() => {
   const labels = useMemo(() => {
     const format = getLabelFormat(daysInRange)
     const count = getLabelCount(daysInRange)
-    const start = dayjs(range.start)
-    const totalMs = dayjs(range.end).diff(start)
+    const start = dayjs(range.from)
+    const totalMs = dayjs(range.to).diff(start)
 
     return Array.from({ length: count }, (_, i) => {
       const ratio = i / (count - 1)
 
       return start.add(totalMs * ratio, 'ms').format(format)
     })
-  }, [range.start, range.end, daysInRange])
+  }, [range.from, range.to, daysInRange])
 
   return (
     <div

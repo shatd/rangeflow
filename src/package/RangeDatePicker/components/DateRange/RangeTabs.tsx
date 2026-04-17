@@ -22,8 +22,8 @@ export function RangeTabs() {
             className={clsx('relative z-1 flex items-center px-1.5 py-1')}
             onClick={() => {
               update(draft => {
-                draft.range.start = tab.start
-                draft.range.end = tab.end
+                draft.range.from = tab.from
+                draft.range.to = tab.to
               })
 
               handleTabChange(index)
