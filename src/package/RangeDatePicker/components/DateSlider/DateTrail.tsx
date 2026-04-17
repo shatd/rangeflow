@@ -6,8 +6,6 @@ import { OdometerText } from '../../animations/OdometerText'
 import { useDaysInRange } from '../../hooks/use-days-in-range'
 import { useStore } from '../../hooks/use-store'
 
-const TOTAL_LABELS = 6
-
 function getLabelFormat(daysInRange: number): string {
   if (daysInRange > 120) {
     return 'MMM YYYY'
@@ -20,17 +18,34 @@ function getLabelFormat(daysInRange: number): string {
   return 'ddd DD'
 }
 
+function getLabelCount(daysInRange: number): number {
+  if (daysInRange > 120) {
+    return 8
+  }
+
+  if (daysInRange > 30) {
+    return 10
+  }
+
+  if (daysInRange > 7) {
+    return 8
+  }
+
+  return Math.min(daysInRange + 1, 8)
+}
+
 export const DateTrail = memo(() => {
   const range = useStore(state => state.range)
   const daysInRange = useDaysInRange(range)
 
   const labels = useMemo(() => {
     const format = getLabelFormat(daysInRange)
+    const count = getLabelCount(daysInRange)
     const start = dayjs(range.start)
     const totalMs = dayjs(range.end).diff(start)
 
-    return Array.from({ length: TOTAL_LABELS }, (_, i) => {
-      const ratio = i / (TOTAL_LABELS - 1)
+    return Array.from({ length: count }, (_, i) => {
+      const ratio = i / (count - 1)
 
       return start.add(totalMs * ratio, 'ms').format(format)
     })

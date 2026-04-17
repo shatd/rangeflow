@@ -2,28 +2,19 @@ import { KeyboardSensor, PointerSensor } from '@dnd-kit/dom'
 import { useDragDropMonitor, useDraggable } from '@dnd-kit/react'
 import { clsx } from 'clsx'
 import { startTransition, useRef } from 'react'
-import {
-  Group,
-  type GroupImperativeHandle,
-  type Layout,
-  Panel,
-  Separator
-} from 'react-resizable-panels'
+import { Group, type GroupImperativeHandle, type Layout, Separator } from 'react-resizable-panels'
 
-import { HANDLE_MIN_SIZE } from '../../constants/slider'
-import { useStore } from '../../hooks/use-store'
-import { SliderValue } from './SliderValue'
-
-const LEFT_SPACER = 'left-spacer'
-const RIGHT_SPACER = 'right-spacer'
-const HANDLE = 'track-handler'
+import { SLIDER_LEFT_SPACER, SLIDER_RIGHT_SPACER } from '../../../constants/slider'
+import { useStore } from '../../../hooks/use-store'
+import { SliderLeftSpacer } from './SliderLeftSpacer'
+import { SliderRightSpacer } from './SliderRightSpacer'
+import { SliderThumb } from './SliderThumb'
 
 interface Props {
   onHandleRef: (el: HTMLDivElement | null) => void
 }
 
-export function SliderHandle({ onHandleRef }: Props) {
-  const defaultValues = useStore(state => state.date.default_value)
+export function Slider({ onHandleRef }: Props) {
   const update = useStore(state => state.update)
 
   const groupRef = useRef<GroupImperativeHandle | null>(null)
@@ -67,16 +58,16 @@ export function SliderHandle({ onHandleRef }: Props) {
 
       const data = {
         ...layoutRef.current,
-        [LEFT_SPACER]: layoutRef.current[LEFT_SPACER] + deltaPercent,
-        [RIGHT_SPACER]: layoutRef.current[RIGHT_SPACER] - deltaPercent
+        [SLIDER_LEFT_SPACER]: layoutRef.current[SLIDER_LEFT_SPACER] + deltaPercent,
+        [SLIDER_RIGHT_SPACER]: layoutRef.current[SLIDER_RIGHT_SPACER] - deltaPercent
       }
 
       groupRef.current.setLayout(data)
 
       startTransition(() => {
         update(draft => {
-          draft.date.start = data[LEFT_SPACER]
-          draft.date.end = data[RIGHT_SPACER]
+          draft.slider.left = data[SLIDER_LEFT_SPACER]
+          draft.slider.right = data[SLIDER_RIGHT_SPACER]
         })
       })
     },
@@ -91,59 +82,11 @@ export function SliderHandle({ onHandleRef }: Props) {
       className={clsx('absolute top-[50%] left-0 z-1 -translate-y-[50%]', 'h-7 w-full')}
     >
       <Group className="group h-full w-full" elementRef={groupElementRef} groupRef={groupRef}>
-        <Panel
-          defaultSize={`${defaultValues.start}%`}
-          id={LEFT_SPACER}
-          minSize={0}
-          onResize={data => {
-            update(draft => {
-              draft.date.start = data.asPercentage
-            })
-          }}
-        >
-          &nbsp;
-        </Panel>
-
+        <SliderLeftSpacer />
         <Separator className={separatorClassName} />
-
-        <Panel
-          defaultSize={`${defaultValues.duration}%`}
-          elementRef={onHandleRef}
-          id={HANDLE}
-          minSize={`${HANDLE_MIN_SIZE}%`}
-          onResize={data => {
-            update(draft => {
-              draft.date.duration = data.asPercentage
-            })
-          }}
-        >
-          <div
-            data-track-handle-container=""
-            className={clsx(
-              'flex items-center justify-center',
-              'h-full rounded-sm border border-gray-300 inset-shadow-sm shadow-gray-300',
-              'backdrop-blur-[1.5px]',
-              'cursor-default select-none'
-            )}
-          >
-            <SliderValue />
-          </div>
-        </Panel>
-
+        <SliderThumb onHandleRef={onHandleRef} />
         <Separator className={separatorClassName} />
-
-        <Panel
-          defaultSize={`${defaultValues.end}%`}
-          id={RIGHT_SPACER}
-          minSize={0}
-          onResize={data => {
-            update(draft => {
-              draft.date.end = data.asPercentage
-            })
-          }}
-        >
-          &nbsp;
-        </Panel>
+        <SliderRightSpacer />
       </Group>
     </div>
   )

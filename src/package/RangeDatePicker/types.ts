@@ -1,5 +1,5 @@
 export interface DatePickerProps {
-  selected: {
+  default_selected: {
     from: Date
     to: Date
   }
