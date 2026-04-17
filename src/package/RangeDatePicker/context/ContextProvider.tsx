@@ -11,7 +11,7 @@ interface Props extends DatePickerProps {
 }
 
 export function ContextProvider({ children, default_selected }: Props) {
-  const range = DateRanges[0]
+  const range = DateRanges[4]
 
   const refs: DatePickerRefs = {
     slider: {

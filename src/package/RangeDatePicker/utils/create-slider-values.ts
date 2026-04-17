@@ -1,7 +1,10 @@
 import dayjs from 'dayjs'
 
 import { SLIDER_THUMB_MIN_SIZE } from '../constants/slider'
+import { clamp } from '../utils/clamp'
 import { interpolate } from '../utils/interpolate'
+
+const toVisual = interpolate([1, 100], [SLIDER_THUMB_MIN_SIZE, 100])
 
 export function createSliderValues(
   range: { start: string; end: string },
@@ -10,25 +13,28 @@ export function createSliderValues(
     to: Date
   }
 ) {
+  const rangeStart = dayjs(range.start).startOf('day')
+  const daysInRange = dayjs(range.end).startOf('day').diff(rangeStart, 'day')
+
+  if (daysInRange <= 0) {
+    return { size: SLIDER_THUMB_MIN_SIZE, left: 0, right: 100 - SLIDER_THUMB_MIN_SIZE }
+  }
+
   const fromDay = dayjs(selected.from).startOf('day')
   const toDay = dayjs(selected.to).startOf('day')
-
-  const rangeStart = dayjs(range.start).startOf('day')
-  const rangeEnd = dayjs(range.end).startOf('day')
-  const daysInRange = rangeEnd.diff(rangeStart, 'day')
 
   const pastDays = Math.max(fromDay.diff(rangeStart, 'day'), 0)
   const selectedDays = Math.max(toDay.diff(fromDay, 'day'), 0)
 
-  const sizePercent = (selectedDays * 100) / daysInRange
-  const leftPercent = (pastDays * 100) / daysInRange
+  const rawSize = (selectedDays * 100) / daysInRange
+  const rawLeft = (pastDays * 100) / daysInRange
 
-  const toVisual = interpolate([1, 100], [SLIDER_THUMB_MIN_SIZE, 100])
-  const size = Math.max(toVisual(sizePercent), SLIDER_THUMB_MIN_SIZE)
-  const inflation = size - sizePercent
+  const size = Math.max(toVisual(rawSize), SLIDER_THUMB_MIN_SIZE)
+  const inflation = size - rawSize
 
-  const left = Math.min(Math.max(leftPercent - inflation, 0), Math.max(100 - size, 0))
-  const right = Math.max(100 - (left + size), 0)
+  // Visual right stays raw (inflation is absorbed entirely by the left spacer).
+  const left = clamp(rawLeft - inflation, 0, Math.max(100 - size, 0))
+  const right = Math.max(100 - left - size, 0)
 
   return { size, left, right }
 }

@@ -6,14 +6,17 @@ import { useDatePickerStore } from '../../hooks/use-date-picker-store'
 import { useDaysInRange } from '../../hooks/use-days-in-range'
 import { interpolate } from '../../utils/interpolate'
 
+// Inverse of the `toVisual` mapping in createSliderValues.
+const fromVisual = interpolate([SLIDER_THUMB_MIN_SIZE, 100], [1, 100])
+
 export const SliderValue = memo(() => {
   const size = useDatePickerStore(state => state.slider.size)
   const range = useDatePickerStore(state => state.range)
   const daysInRange = useDaysInRange(range)
 
   const label = useMemo(() => {
-    const interpolated = interpolate([SLIDER_THUMB_MIN_SIZE, 100], [1, 100])(Math.ceil(size))
-    const days = Math.max(Math.round(daysInRange * (interpolated / 100)), 1)
+    const rawSize = fromVisual(Math.ceil(size))
+    const days = Math.max(Math.round((daysInRange * rawSize) / 100), 1)
 
     if (size < 10) {
       return `${days}D`

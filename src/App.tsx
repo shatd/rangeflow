@@ -8,7 +8,7 @@ function App() {
       <DatePicker
         default_selected={{
           from: dayjs().toDate(),
-          to: dayjs().add(7, 'day').toDate()
+          to: dayjs().add(1, 'day').toDate()
         }}
       />
     </div>
