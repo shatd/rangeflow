@@ -17,6 +17,7 @@ export function CalendarDatePicker({ children }: Props) {
   const range = useDatePickerStore(state => state.range)
   const date = useDatePickerStore(state => state.selected_date)
   const disabled = useDatePickerStore(state => state.disabled)
+  const duration = useDatePickerStore(state => state.duration)
   const CalendarProps = useDatePickerStore(state => state.CalendarProps)
 
   const {
@@ -74,6 +75,8 @@ export function CalendarDatePicker({ children }: Props) {
           {...CalendarProps}
           disabled={disabled}
           mode="range"
+          min={duration?.min}
+          max={duration?.max}
           selected={date}
           onSelect={nextDate => {
             if (!nextDate?.from || !nextDate?.to) {

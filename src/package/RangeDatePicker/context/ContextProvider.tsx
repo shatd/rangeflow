@@ -16,6 +16,7 @@ export function ContextProvider({
   defaultRange,
   defaultSelected,
   disabled,
+  duration,
   ranges = DefaultRangesList,
   CalendarProps,
   onChange
@@ -27,6 +28,7 @@ export function ContextProvider({
     createDatePickerStore({
       ranges,
       disabled,
+      duration,
       range: defaultRange,
       default_range: defaultRange,
       selected_date: defaultSelected,

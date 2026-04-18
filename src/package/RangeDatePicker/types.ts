@@ -11,12 +11,18 @@ export type DateRange = {
   to: Date
 }
 
+export type Bounds = {
+  min: number
+  max: number
+}
+
 export type DateDisabled = { before: Date; after?: Date } | { before?: Date; after: Date }
 
 export interface DatePickerProps {
   defaultSelected: DateRange
   defaultRange: DateRange
   ranges?: RangeListItem[]
+  duration?: Bounds
   disabled?: DateDisabled
   CalendarProps?: DayPickerProps
   onChange: (date: DateRange) => void

@@ -4,7 +4,7 @@ import type { GroupImperativeHandle } from 'react-resizable-panels'
 import { immer } from 'zustand/middleware/immer'
 import { createStore } from 'zustand/vanilla'
 
-import type { DateDisabled, DateRange, RangeListItem } from '../types'
+import type { Bounds, DateDisabled, DateRange, RangeListItem } from '../types'
 
 type UpdaterFunction = (state: DatePickerState) => void
 
@@ -20,6 +20,7 @@ export interface DatePickerState {
   selected_date: DateRange
   default_range: DateRange
   disabled?: DateDisabled
+  duration?: Bounds
   slider: {
     left: number
     right: number
