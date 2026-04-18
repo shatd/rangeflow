@@ -3,10 +3,6 @@ import clsx from 'clsx'
 import { motion } from 'motion/react'
 import { type ComponentProps, memo } from 'react'
 
-export const Popover = PopoverPrimitive.Root
-export const PopoverTrigger = PopoverPrimitive.Trigger
-export const PopoverAnchor = PopoverPrimitive.Anchor
-
 type ContentProps = ComponentProps<typeof PopoverPrimitive.Content>
 
 export const PopoverContent = memo(
@@ -31,3 +27,12 @@ export const PopoverContent = memo(
     )
   }
 )
+
+// eslint-disable-next-line
+export const Popover = PopoverPrimitive.Root
+
+// eslint-disable-next-line
+export const PopoverTrigger = PopoverPrimitive.Trigger
+
+// eslint-disable-next-line
+export const PopoverAnchor = PopoverPrimitive.Anchor
