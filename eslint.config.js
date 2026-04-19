@@ -59,7 +59,7 @@ export default [
         typescript: {}
       },
       tailwindcss: {
-        cssConfigPath: path.join(__dirname, 'src/index.css')
+        cssConfigPath: path.join(__dirname, 'src/package/rangeflow/styles.css')
       }
     },
     rules: {

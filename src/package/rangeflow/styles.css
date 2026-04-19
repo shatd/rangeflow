@@ -1,9 +1,63 @@
-@layer theme, utilities;
+@layer theme, base, utilities;
 
 @import 'tailwindcss/theme.css' layer(theme);
 @import 'tailwindcss/utilities.css' layer(utilities);
 
 @source './';
+
+/*
+ * Scoped resets — the library does NOT ship Tailwind preflight (that would
+ * pollute the consumer's app). Instead we reset only the elements the picker
+ * uses, so it renders correctly whether or not the host app has its own reset.
+ */
+@layer base {
+  .rangeflow-date-picker,
+  .rangeflow-date-picker-portal {
+    font-family: var(
+      --rangeflow-font,
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      'Segoe UI',
+      Roboto,
+      'Helvetica Neue',
+      Arial,
+      'Apple Color Emoji',
+      'Segoe UI Emoji',
+      sans-serif
+    );
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .rangeflow-date-picker,
+  .rangeflow-date-picker *,
+  .rangeflow-date-picker-portal,
+  .rangeflow-date-picker-portal * {
+    box-sizing: border-box;
+  }
+
+  .rangeflow-date-picker button,
+  .rangeflow-date-picker-portal button,
+  .rangeflow-date-picker select,
+  .rangeflow-date-picker-portal select {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    font: inherit;
+    color: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    cursor: pointer;
+  }
+
+  .rangeflow-date-picker select,
+  .rangeflow-date-picker-portal select {
+    appearance: none;
+  }
+}
 
 /*
  * Rangeflow theming
