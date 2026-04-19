@@ -6,7 +6,7 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
 
-const BasePath = 'src/package/RangeDatePicker'
+const BasePath = 'src/package/rangeflow'
 
 const isExternal = (id: string) => {
   const pkg = JSON.parse(readFileSync(resolve(__dirname, 'package.json'), 'utf8'))
