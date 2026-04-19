@@ -23,7 +23,7 @@ export function CalendarDayButton({ className, day: _day, modifiers, ...props }:
       data-selected={isSingleSelected || undefined}
       data-today={modifiers.today || undefined}
       className={clsx(
-        'flex h-9 w-9 items-center justify-center rounded-sm leading-none',
+        'rangeflow-day flex h-9 w-9 items-center justify-center rounded-sm leading-none',
         'text-xs text-(--rangeflow-text-muted) transition-colors',
         'hover:bg-(--rangeflow-hover-bg)',
         'focus-visible:ring-1 focus-visible:ring-(--rangeflow-ring) focus-visible:outline-none',

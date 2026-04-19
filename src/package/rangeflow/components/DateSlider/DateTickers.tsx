@@ -17,10 +17,10 @@ export const DateTickers = memo(() => {
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="rangeflow-tickers flex items-center gap-2">
       <div className="flex w-full justify-between">
         {Array.from({ length: tickers }).map((_, index) => (
-          <div key={index} className="h-3 w-0.5 rounded-xs bg-(--rangeflow-ticker)"></div>
+          <div key={index} className="rangeflow-ticker h-3 w-0.5 rounded-xs bg-(--rangeflow-ticker)"></div>
         ))}
       </div>
     </div>

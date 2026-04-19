@@ -60,7 +60,7 @@ export const DateLabelsTrack = memo(() => {
   return (
     <div
       className={clsx(
-        'flex w-full items-center justify-between select-none',
+        'rangeflow-labels flex w-full items-center justify-between select-none',
         'absolute top-10 left-0 px-2',
         'text-xs tracking-tighter text-(--rangeflow-text-faint) uppercase'
       )}
@@ -68,7 +68,7 @@ export const DateLabelsTrack = memo(() => {
       {labels.map((label, index) => (
         <OdometerText
           key={index}
-          className={clsx({
+          className={clsx('rangeflow-label', {
             'font-medium text-(--rangeflow-text-muted)': index === 0 || index === labels.length - 1
           })}
         >

@@ -38,7 +38,7 @@ export function SelectedDate() {
   }
 
   return (
-    <div className="flex items-center gap-2 text-xs font-medium text-(--rangeflow-accent-text) select-none hover:opacity-90">
+    <div className="rangeflow-selected-date flex items-center gap-2 text-xs font-medium text-(--rangeflow-accent-text) select-none hover:opacity-90">
       <CalendarIcon />
       {from}
       <span className="text-(--rangeflow-text-faint)">—</span>

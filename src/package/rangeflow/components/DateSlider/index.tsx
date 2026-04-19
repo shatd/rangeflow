@@ -11,7 +11,7 @@ export function DateSlider() {
   const [trackHandleEl, setTrackHandleEl] = useState<HTMLDivElement | null>(null)
 
   return (
-    <div ref={setContainerEl} className="relative my-8 h-3 w-full px-2">
+    <div ref={setContainerEl} className="rangeflow-slider relative my-8 h-3 w-full px-2">
       <DragDropProvider
         modifiers={[
           RestrictInnerToElement.configure({

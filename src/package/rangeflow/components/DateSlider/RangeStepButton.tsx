@@ -9,7 +9,7 @@ interface Props {
 export function RangeStepButton({ children, onClick }: Props) {
   return (
     <motion.span
-      className="shrink-0 cursor-pointer text-(--rangeflow-text) select-none hover:text-(--rangeflow-text-muted)"
+      className="rangeflow-step-button shrink-0 cursor-pointer text-(--rangeflow-text) select-none hover:text-(--rangeflow-text-muted)"
       whileHover={{ scale: 1.1 }}
       onClick={onClick}
     >

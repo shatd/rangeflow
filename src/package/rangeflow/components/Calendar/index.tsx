@@ -16,7 +16,7 @@ export function Calendar({
   return (
     <DayPicker
       captionLayout={captionLayout}
-      className={clsx('w-fit p-3 select-none', className)}
+      className={clsx('rangeflow-calendar w-fit p-3 select-none', className)}
       showOutsideDays={showOutsideDays}
       classNames={{
         months: 'relative flex flex-col gap-4 md:flex-row',
