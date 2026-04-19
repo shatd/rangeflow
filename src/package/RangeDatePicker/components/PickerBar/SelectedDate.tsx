@@ -38,10 +38,10 @@ export function SelectedDate() {
   }
 
   return (
-    <div className="hover:text-accent/90 text-accent flex items-center gap-2 text-xs font-medium select-none">
+    <div className="flex items-center gap-2 text-xs font-medium text-(--rangeflow-accent-text) select-none hover:opacity-90">
       <CalendarIcon />
       {from}
-      <span className="text-gray-400">—</span>
+      <span className="text-(--rangeflow-text-faint)">—</span>
       {to}
     </div>
   )

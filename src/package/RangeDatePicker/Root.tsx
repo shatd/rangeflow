@@ -6,8 +6,8 @@ export function Root() {
   useEmitDateChange()
 
   return (
-    <div className="h-35 w-140 rounded-lg border border-gray-200 shadow-md shadow-gray-200">
-      <div className="h-10 border-b border-gray-200 p-2">
+    <div className="rangeflow-date-picker h-35 w-140 rounded-lg border border-(--rangeflow-border) bg-(--rangeflow-bg) text-(--rangeflow-text) shadow-md shadow-(color:--rangeflow-shadow-color)">
+      <div className="h-10 border-b border-(--rangeflow-border) p-2">
         <PickerBar />
       </div>
 

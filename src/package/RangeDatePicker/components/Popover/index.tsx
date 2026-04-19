@@ -16,7 +16,7 @@ export const PopoverContent = memo(
             style={{ transformOrigin: 'var(--radix-popover-content-transform-origin)' }}
             transition={{ type: 'spring', stiffness: 420, damping: 32, mass: 0.8 }}
             className={clsx(
-              'z-50 rounded-lg border border-gray-200 p-2 shadow-md shadow-gray-200 backdrop-blur-[10px] outline-none',
+              'rangeflow-date-picker-portal z-50 rounded-lg border border-(--rangeflow-border) bg-(--rangeflow-bg) p-2 text-(--rangeflow-text) shadow-md shadow-(color:--rangeflow-shadow-color) backdrop-blur-[10px] outline-none',
               className
             )}
           >

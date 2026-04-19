@@ -39,8 +39,8 @@ export function Slider({ onHandleRef }: Props) {
 
   const separatorClassName = clsx(
     'h-3/4 w-0.75 self-center rounded-full transition-[background-color,opacity] duration-150',
-    'bg-gray-500/70 hover:bg-gray-500 focus:outline-none',
-    'data-[separator=active]:bg-gray-500',
+    'bg-(--rangeflow-separator) hover:bg-(--rangeflow-separator-active) focus:outline-none',
+    'data-[separator=active]:bg-(--rangeflow-separator-active)',
     'opacity-0 group-has-[[data-track-handle-container]:hover]:opacity-100',
     'hover:opacity-100 data-[separator=active]:opacity-100 data-[separator=focus]:opacity-100'
   )

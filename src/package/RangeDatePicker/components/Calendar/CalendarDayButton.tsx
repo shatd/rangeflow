@@ -24,13 +24,13 @@ export function CalendarDayButton({ className, day: _day, modifiers, ...props }:
       data-today={modifiers.today || undefined}
       className={clsx(
         'flex h-9 w-9 items-center justify-center rounded-sm leading-none',
-        'text-xs text-gray-700 transition-colors',
-        'hover:bg-slate-100',
-        'focus-visible:ring-1 focus-visible:ring-slate-400 focus-visible:outline-none',
-        'data-[today=true]:font-bold data-[today=true]:text-slate-500',
-        'data-[selected=true]:bg-slate-800 data-[selected=true]:text-white data-[selected=true]:hover:bg-slate-800',
-        'data-[range-start=true]:bg-slate-800 data-[range-start=true]:text-white',
-        'data-[range-end=true]:bg-slate-800 data-[range-end=true]:text-white',
+        'text-xs text-(--rangeflow-text-muted) transition-colors',
+        'hover:bg-(--rangeflow-hover-bg)',
+        'focus-visible:ring-1 focus-visible:ring-(--rangeflow-ring) focus-visible:outline-none',
+        'data-[today=true]:font-bold data-[today=true]:text-(--rangeflow-today)',
+        'data-[selected=true]:bg-(--rangeflow-accent-solid) data-[selected=true]:text-(--rangeflow-accent-contrast) data-[selected=true]:hover:bg-(--rangeflow-accent-solid-hover)',
+        'data-[range-start=true]:bg-(--rangeflow-accent-solid) data-[range-start=true]:text-(--rangeflow-accent-contrast)',
+        'data-[range-end=true]:bg-(--rangeflow-accent-solid) data-[range-end=true]:text-(--rangeflow-accent-contrast)',
         className
       )}
       {...props}

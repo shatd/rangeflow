@@ -57,8 +57,8 @@ export function RangeTabs() {
             }}
           >
             <span
-              className={clsx('relative z-1 text-xs tracking-tight text-gray-700', {
-                'font-medium text-gray-900': activeIndex === index
+              className={clsx('relative z-1 text-xs tracking-tight text-(--rangeflow-text-muted)', {
+                'font-medium text-(--rangeflow-text)': activeIndex === index
               })}
             >
               {item.label}
@@ -66,7 +66,7 @@ export function RangeTabs() {
 
             {activeIndex === index && (
               <motion.div
-                className="absolute inset-0 rounded-sm bg-slate-300"
+                className="absolute inset-0 rounded-sm bg-(--rangeflow-active-bg)"
                 layoutId="tab-indicator"
                 transition={{
                   type: 'spring',

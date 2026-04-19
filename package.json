@@ -1,5 +1,5 @@
 {
-  "name": "fancy-calendar",
+  "name": "rangeflow",
   "version": "0.0.0",
   "type": "module",
   "description": "A fancy date range picker built with React and Tailwind.",

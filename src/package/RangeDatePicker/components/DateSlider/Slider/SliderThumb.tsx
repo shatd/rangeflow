@@ -41,7 +41,7 @@ export function SliderThumb({ onHandleRef }: Props) {
         data-track-handle-container=""
         className={clsx(
           'flex items-center justify-center',
-          'h-full rounded-sm border border-gray-300 inset-shadow-sm shadow-gray-300',
+          'h-full rounded-sm border border-(--rangeflow-border-strong) inset-shadow-sm shadow-(color:--rangeflow-shadow-color)',
           'backdrop-blur-[2.5px]',
           'cursor-default select-none'
         )}

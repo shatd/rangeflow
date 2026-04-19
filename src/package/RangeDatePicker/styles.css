@@ -4,3 +4,70 @@
 @import 'tailwindcss/utilities.css' layer(utilities);
 
 @source './';
+
+/*
+ * Rangeflow theming
+ * ─────────────────
+ * To re-theme the picker you only need to set ONE variable:
+ *
+ *   .my-app { --rangeflow-accent: #4f46e5; }
+ *
+ * Optional inputs for deeper control:
+ *   --rangeflow-surface     background of the picker (default: white / near-black in dark)
+ *   --rangeflow-foreground  opposite of surface for text derivation (default: black / white in dark)
+ *   --rangeflow-on-accent   text color rendered on top of the solid accent (default: white / dark in dark)
+ *
+ * All other tokens are derived via color-mix(). Override any of them
+ * individually if you need finer control.
+ */
+
+@layer theme {
+  .rangeflow-date-picker,
+  .rangeflow-date-picker-portal {
+    --rangeflow-accent: #16433C;
+    --rangeflow-surface: #ffffff;
+    --rangeflow-foreground: #0a0f0c;
+    
+    /* Auto: white on dark accents, black on light accents. Override with any color. */
+    --rangeflow-on-accent: oklch(from var(--rangeflow-accent) clamp(0, (0.62 - l) * 100, 1) 0 0);
+
+    --rangeflow-bg: var(--rangeflow-surface);
+
+    --rangeflow-border: color-mix(in oklab, var(--rangeflow-accent) 22%, var(--rangeflow-surface));
+    --rangeflow-border-strong: color-mix(in oklab, var(--rangeflow-accent) 45%, var(--rangeflow-surface));
+    --rangeflow-shadow-color: color-mix(in oklab, var(--rangeflow-foreground) 10%, transparent);
+
+    --rangeflow-text: color-mix(in oklab, var(--rangeflow-foreground) 92%, var(--rangeflow-surface));
+    --rangeflow-text-muted: color-mix(in oklab, var(--rangeflow-foreground) 65%, var(--rangeflow-surface));
+    --rangeflow-text-subtle: color-mix(in oklab, var(--rangeflow-foreground) 50%, var(--rangeflow-surface));
+    --rangeflow-text-faint: color-mix(in oklab, var(--rangeflow-foreground) 35%, var(--rangeflow-surface));
+    --rangeflow-text-disabled: color-mix(in oklab, var(--rangeflow-foreground) 20%, var(--rangeflow-surface));
+
+    --rangeflow-hover-bg: color-mix(in oklab, var(--rangeflow-accent) 12%, var(--rangeflow-surface));
+    --rangeflow-range-bg: color-mix(in oklab, var(--rangeflow-accent) 20%, var(--rangeflow-surface));
+    --rangeflow-active-bg: color-mix(in oklab, var(--rangeflow-accent) 32%, var(--rangeflow-surface));
+
+    --rangeflow-accent-solid: var(--rangeflow-accent);
+    --rangeflow-accent-solid-hover: color-mix(in oklab, var(--rangeflow-accent), var(--rangeflow-foreground) 12%);
+    --rangeflow-accent-contrast: var(--rangeflow-on-accent);
+    --rangeflow-accent-text: color-mix(in oklab, var(--rangeflow-accent) 55%, var(--rangeflow-foreground));
+
+    --rangeflow-ring: var(--rangeflow-accent);
+    --rangeflow-separator: color-mix(in oklab, var(--rangeflow-accent) 65%, transparent);
+    --rangeflow-separator-active: var(--rangeflow-accent);
+    --rangeflow-ticker: color-mix(in oklab, var(--rangeflow-accent) 40%, var(--rangeflow-surface));
+    --rangeflow-today: var(--rangeflow-accent-text);
+  }
+
+  .rangeflow-date-picker.dark,
+  .rangeflow-date-picker[data-theme='dark'],
+  .dark .rangeflow-date-picker,
+  [data-theme='dark'] .rangeflow-date-picker,
+  .rangeflow-date-picker-portal.dark,
+  .rangeflow-date-picker-portal[data-theme='dark'],
+  .dark .rangeflow-date-picker-portal,
+  [data-theme='dark'] .rangeflow-date-picker-portal {
+    --rangeflow-surface: #0a0f0c;
+    --rangeflow-foreground: #ffffff;
+  }
+}

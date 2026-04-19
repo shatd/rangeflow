@@ -62,14 +62,14 @@ export const DateLabelsTrack = memo(() => {
       className={clsx(
         'flex w-full items-center justify-between select-none',
         'absolute top-10 left-0 px-2',
-        'text-xs tracking-tighter text-gray-400 uppercase'
+        'text-xs tracking-tighter text-(--rangeflow-text-faint) uppercase'
       )}
     >
       {labels.map((label, index) => (
         <OdometerText
           key={index}
           className={clsx({
-            'font-medium text-gray-700': index === 0 || index === labels.length - 1
+            'font-medium text-(--rangeflow-text-muted)': index === 0 || index === labels.length - 1
           })}
         >
           {label}

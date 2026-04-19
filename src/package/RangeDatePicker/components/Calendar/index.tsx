@@ -24,34 +24,34 @@ export function Calendar({
         nav: 'absolute inset-x-0 top-0 flex h-7 items-center justify-between',
         button_previous: clsx(
           'inline-flex h-7 w-7 items-center justify-center rounded-sm',
-          'text-gray-500 transition-colors hover:bg-slate-100 hover:text-gray-700',
+          'text-(--rangeflow-text-subtle) transition-colors hover:bg-(--rangeflow-hover-bg) hover:text-(--rangeflow-text-muted)',
           'aria-disabled:pointer-events-none aria-disabled:opacity-40'
         ),
         button_next: clsx(
           'inline-flex h-7 w-7 items-center justify-center rounded-sm',
-          'text-gray-500 transition-colors hover:bg-slate-100 hover:text-gray-700',
+          'text-(--rangeflow-text-subtle) transition-colors hover:bg-(--rangeflow-hover-bg) hover:text-(--rangeflow-text-muted)',
           'aria-disabled:pointer-events-none aria-disabled:opacity-40'
         ),
-        month_caption: 'flex h-7 items-center justify-center text-xs font-medium text-gray-700',
+        month_caption: 'flex h-7 items-center justify-center text-xs font-medium text-(--rangeflow-text-muted)',
         caption_label: 'text-xs font-medium',
-        dropdowns: 'flex items-center gap-1 text-xs font-medium text-gray-700',
+        dropdowns: 'flex items-center gap-1 text-xs font-medium text-(--rangeflow-text-muted)',
         dropdown_root: clsx(
-          'relative flex items-center gap-1 rounded-sm border border-gray-200 px-1.5 py-0.5',
-          'has-[:focus]:ring-1 has-[:focus]:ring-slate-400'
+          'relative flex items-center gap-1 rounded-sm border border-(--rangeflow-border) px-1.5 py-0.5',
+          'has-[:focus]:ring-1 has-[:focus]:ring-(--rangeflow-ring)'
         ),
         dropdown: 'absolute inset-0 cursor-pointer opacity-0',
         month_grid: 'mt-2 w-full border-collapse',
         weekdays: 'flex',
-        weekday: 'flex-1 text-[0.7rem] font-normal text-gray-400',
+        weekday: 'flex-1 text-[0.7rem] font-normal text-(--rangeflow-text-faint)',
         week: 'mt-1 flex w-full',
         week_number_header: 'w-9',
-        week_number: 'w-9 text-[0.7rem] text-gray-400',
+        week_number: 'w-9 text-[0.7rem] text-(--rangeflow-text-faint)',
         day: 'relative flex-1 p-0 text-center',
-        range_start: 'rounded-l-sm bg-slate-100',
-        range_middle: 'bg-slate-100',
-        range_end: 'rounded-r-sm bg-slate-100',
-        outside: 'text-gray-300',
-        disabled: 'text-gray-300 opacity-50',
+        range_start: 'rounded-l-sm bg-(--rangeflow-range-bg)',
+        range_middle: 'bg-(--rangeflow-range-bg)',
+        range_end: 'rounded-r-sm bg-(--rangeflow-range-bg)',
+        outside: 'text-(--rangeflow-text-disabled)',
+        disabled: 'text-(--rangeflow-text-disabled) opacity-50',
         hidden: 'invisible',
         ...classNames
       }}
