@@ -44,7 +44,7 @@ export function RangeTabs() {
 
   return (
     <div className="rangeflow-tabs flex items-center justify-center select-none">
-      <div className="flex items-center">
+      <div className="relative flex items-center overflow-hidden">
         {filteredList.map((item, index) => (
           <button
             key={`${item.from.getTime()}_${item.to.getTime()}`}
@@ -69,6 +69,10 @@ export function RangeTabs() {
               <motion.div
                 className="rangeflow-tab-indicator absolute inset-0 rounded-sm bg-(--rangeflow-active-bg)"
                 layoutId="tab-indicator"
+                initial={{
+                  x: 0,
+                  y: 0
+                }}
                 transition={{
                   type: 'spring',
                   stiffness: 200,

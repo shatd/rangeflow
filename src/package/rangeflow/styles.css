@@ -123,5 +123,25 @@
   [data-theme='dark'] .rangeflow-date-picker-portal {
     --rangeflow-surface: #0a0f0c;
     --rangeflow-foreground: #ffffff;
+
+    /*
+     * In dark mode the accent is mixed against a *lifted* surface (surface
+     * blended with foreground) rather than raw near-black. Without this,
+     * dark accents mixed with near-black stay near-black and the thumb,
+     * tracks, tickers and separators become invisible.
+     */
+    --rangeflow-border: color-mix(in oklab, var(--rangeflow-accent) 30%, color-mix(in oklab, var(--rangeflow-surface), var(--rangeflow-foreground) 14%));
+    --rangeflow-border-strong: color-mix(in oklab, var(--rangeflow-accent) 55%, color-mix(in oklab, var(--rangeflow-surface), var(--rangeflow-foreground) 22%));
+
+    --rangeflow-hover-bg: color-mix(in oklab, var(--rangeflow-accent) 22%, color-mix(in oklab, var(--rangeflow-surface), var(--rangeflow-foreground) 10%));
+    --rangeflow-range-bg: color-mix(in oklab, var(--rangeflow-accent) 32%, color-mix(in oklab, var(--rangeflow-surface), var(--rangeflow-foreground) 14%));
+    --rangeflow-active-bg: color-mix(in oklab, var(--rangeflow-accent) 45%, color-mix(in oklab, var(--rangeflow-surface), var(--rangeflow-foreground) 20%));
+
+    --rangeflow-ticker: color-mix(in oklab, var(--rangeflow-accent) 55%, color-mix(in oklab, var(--rangeflow-surface), var(--rangeflow-foreground) 28%));
+    --rangeflow-separator: color-mix(in oklab, var(--rangeflow-accent) 55%, var(--rangeflow-foreground));
+    --rangeflow-separator-active: color-mix(in oklab, var(--rangeflow-accent) 35%, var(--rangeflow-foreground));
+
+    --rangeflow-accent-solid-hover: color-mix(in oklab, var(--rangeflow-accent), var(--rangeflow-foreground) 18%);
+    --rangeflow-accent-text: color-mix(in oklab, var(--rangeflow-accent) 45%, var(--rangeflow-foreground));
   }
 }
