@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 
-import { RangeFlow, useRangeflow } from './package/rangeflow/entry'
+import { RangeFlow, useRangeflow } from './package/rangeflow'
 
 function App() {
   const rangeflow = useRangeflow()
