@@ -110,7 +110,7 @@ Main component. Renders the full picker.
 | `calendar`        | `boolean`                             | No       | `true`                        | Show the popover calendar on the left of the header.                        |
 | `CalendarProps`   | `DayPickerProps` from `react-day-picker` | No    | `undefined`                   | Pass through props to the inner calendar (months, locale, modifiers, etc.). |
 | `Slots`           | `Slots`                               | No       | `{}`                          | Replace any visible part with your own component.                           |
-| `api`             | `RangeFlowApi`                        | No       | `undefined`                   | Hook returned object for external control. See `useRangeflow`.              |
+| `api`             | `RangeFlowApi`                        | No       | `undefined`                   | Hook returned object for external control. See `useRangeFlow`.              |
 
 #### Types
 
@@ -126,12 +126,12 @@ type DateDisabled =
   | { before?: Date; after: Date }
 ```
 
-### `useRangeflow()`
+### `useRangeFlow()`
 
 Returns an imperative API object. Pass it into `<RangeFlow api={...} />` to control the picker from outside.
 
 ```ts
-const rangeflow = useRangeflow()
+const rangeflow = useRangeFlow()
 
 rangeflow.updateRange({ from, to })          // change the window
 rangeflow.updateSelectedDates({ from, to })  // change the picked range
@@ -339,16 +339,16 @@ Keep the slider and tabs, drop the popover calendar.
 />
 ```
 
-### 8. External controls with `useRangeflow`
+### 8. External controls with `useRangeFlow`
 
 Drive the picker from buttons, forms, or URL params.
 
 ```tsx
-import { RangeFlow, useRangeflow } from 'rangeflow'
+import { RangeFlow, useRangeFlow } from 'rangeflow'
 import dayjs from 'dayjs'
 
 export function WithControls() {
-  const rangeflow = useRangeflow()
+  const rangeflow = useRangeFlow()
 
   return (
     <div>
@@ -503,12 +503,12 @@ Use these class names to style parts of the picker without touching the tokens.
 
 If you are an AI tool generating code with RangeFlow, keep these facts in mind:
 
-- The package is `rangeflow`. Only two named exports are public: `RangeFlow` (component) and `useRangeflow` (hook). Also a type export `RangeFlowApi`.
+- The package is `rangeflow`. Only two named exports are public: `RangeFlow` (component) and `useRangeFlow` (hook). Also a type export `RangeFlowApi`.
 - Always import the CSS file once: `import 'rangeflow/style.css'`.
 - `defaultRange` and `defaultSelected` are required. Both must be `{ from: Date; to: Date }`.
 - `defaultSelected` must fit inside `defaultRange` or the slider will clamp it.
 - `onChange` is required and fires with `{ from: Date; to: Date }`.
-- To drive the picker from outside, call `useRangeflow()` and pass the result to `<RangeFlow api={...} />`. Then use `updateRange` or `updateSelectedDates`.
+- To drive the picker from outside, call `useRangeFlow()` and pass the result to `<RangeFlow api={...} />`. Then use `updateRange` or `updateSelectedDates`.
 - Theming is CSS variable based. Set `--rangeflow-accent` on any parent to re-skin the picker.
 - Dark mode turns on via a `dark` class or `data-theme="dark"` on the picker or any parent.
 - The picker is 560px wide and 140px tall by default (`w-140 h-35` in Tailwind units).

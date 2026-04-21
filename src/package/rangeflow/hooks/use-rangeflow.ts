@@ -5,7 +5,7 @@ import type { RangeFlowRefs, RangeFlowStore } from '../context/root'
 import type { DateRange, RangeFlowApi } from '../types'
 import { createSliderValues } from '../utils/create-slider-values'
 
-export function useRangeflow(): RangeFlowApi {
+export function useRangeFlow(): RangeFlowApi {
   const storeRef = useRef<RangeFlowStore | null>(null)
   const refsRef = useRef<RangeFlowRefs | null>(null)
 
