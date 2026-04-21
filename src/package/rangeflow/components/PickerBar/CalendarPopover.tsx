@@ -81,15 +81,14 @@ export function CalendarPopover({ children }: Props) {
               return
             }
 
-            const fromDay = dayjs(nextDate.from).startOf('day')
-            const toDay = dayjs(nextDate.to).startOf('day')
-
             const nextSelected = {
-              from: fromDay.toDate(),
-              to: toDay.toDate()
+              from: dayjs(nextDate.from).startOf('day').toDate(),
+              to: dayjs(nextDate.to).startOf('day').toDate()
             }
 
-            update({ selected_date: nextSelected })
+            update({
+              selected_date: nextSelected
+            })
           }}
         />
       </PopoverContent>

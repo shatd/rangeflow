@@ -2,12 +2,20 @@ import clsx from 'clsx'
 import dayjs from 'dayjs'
 import { useMemo } from 'react'
 
+import { SLIDER_LEFT_SPACER, SLIDER_RIGHT_SPACER, SLIDER_THUMB } from '../../constants/slider'
+import { useRangeFlowRefs } from '../../hooks/use-rangeflow-refs'
 import { useRangeFlowStore } from '../../hooks/use-rangeflow-store'
+import type { RangeListItem } from '../../types'
+import { createSliderValues } from '../../utils/create-slider-values'
 import { useApplySliderLayout } from './hooks/use-apply-slider-layout'
 import { useTabIndicator } from './hooks/use-tab-indicator'
 
 export function RangeTabs() {
   useApplySliderLayout()
+
+  const {
+    slider: { root: rootRef }
+  } = useRangeFlowRefs()
 
   const list = useRangeFlowStore(state => state.ranges)
   const update = useRangeFlowStore(state => state.update)
@@ -17,6 +25,25 @@ export function RangeTabs() {
 
   const disabledBefore = useRangeFlowStore(state => state.disabled?.before)
   const disabledAfter = useRangeFlowStore(state => state.disabled?.after)
+
+  const handleChangeRange = (nextRange: RangeListItem) => {
+    update(state => {
+      const slider = createSliderValues(nextRange, state.selected_date)
+
+      rootRef.current?.setLayout({
+        [SLIDER_LEFT_SPACER]: slider.left,
+        [SLIDER_THUMB]: slider.size,
+        [SLIDER_RIGHT_SPACER]: slider.right
+      })
+
+      return {
+        range: {
+          from: nextRange.from,
+          to: nextRange.to
+        }
+      }
+    })
+  }
 
   const filteredList = useMemo(
     () =>
@@ -62,9 +89,7 @@ export function RangeTabs() {
             className={clsx(
               'rangeflow-tab relative z-1 flex items-center px-1.5 py-1 focus:outline-none'
             )}
-            onClick={() => {
-              update({ range: { from: item.from, to: item.to } })
-            }}
+            onClick={() => handleChangeRange(item)}
           >
             <span
               className={clsx('relative z-1 text-xs tracking-tight text-(--rangeflow-text-muted)', {

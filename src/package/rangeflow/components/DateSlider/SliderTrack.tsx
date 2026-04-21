@@ -48,18 +48,23 @@ export function SliderTrack({ onHandleRef }: Props) {
   const handleMoveBackward = () => {
     update(state => {
       const next = dayjs(state.range.from).subtract(daysInRange / 2, 'day')
-      const newRange = {
+
+      const nextRange = {
         from:
           disabledBefore && next.isBefore(disabledBefore)
             ? dayjs(disabledBefore).toDate()
             : next.toDate(),
         to: state.range.to
       }
-      const slider = createSliderValues(newRange, state.selected_date)
+
+      const slider = createSliderValues(nextRange, state.selected_date)
 
       updateSlider(slider)
 
-      return { range: newRange, slider }
+      return {
+        range: nextRange,
+        slider
+      }
     })
   }
 
