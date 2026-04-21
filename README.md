@@ -514,6 +514,29 @@ If you are an AI tool generating code with RangeFlow, keep these facts in mind:
 - The picker is 560px wide and 140px tall by default (`w-140 h-35` in Tailwind units).
 - Dates are plain JS `Date` objects. The package uses `dayjs` internally but does not require it from you.
 
+## Bundle size
+
+Measured with `yarn build:lib` (v1.0.*):
+
+| What is shipped inside RangeFlow's own `dist` | Minified | Gzip |
+| --------------------------------------------- | -------- | ---- |
+| `dist/index.js`                               | 32 KB    | 9 KB |
+| `dist/style.css`                              | 31 KB    | 4 KB |
+
+The published package **does not bundle its dependencies**. They are listed as `external` in [vite.lib.config.ts](vite.lib.config.ts) and tree-shaken by your app's bundler.
+
+In a real consumer app (Vite / Rollup / Webpack 5+), the end cost of `import { RangeFlow } from 'rangeflow'` is roughly:
+
+| Shipped to the browser (React externalized)  | Minified | Gzip  |
+| --------------------------------------------- | -------- | ----- |
+| JS (RangeFlow + transitive deps)              | 291 KB   | 96 KB |
+| CSS                                           | 31 KB    | 4 KB  |
+| **Total**                                     | **322 KB** | **~100 KB** |
+
+> ℹ️ [Bundlephobia](https://bundlephobia.com/package/rangeflow) reports a higher number (~134 KB gzip). It measures the package in isolation, which double-counts React and is pessimistic about tree-shaking. The measurement above reflects what your users actually download.
+
+If your app already uses `react-day-picker`, `date-fns`, `dayjs`, `@dnd-kit/*`, or `@radix-ui/react-popover`, your bundler will dedupe them and the added cost will be even smaller.
+
 ## Browser support
 
 RangeFlow uses modern CSS features such as `color-mix()` and the OKLCH color space. It works in all current versions of Chrome, Edge, Firefox, and Safari.

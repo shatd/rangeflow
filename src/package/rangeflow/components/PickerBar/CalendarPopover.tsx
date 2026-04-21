@@ -52,9 +52,7 @@ export function CalendarPopover({ children }: Props) {
       [SLIDER_RIGHT_SPACER]: right
     })
 
-    update(draft => {
-      draft.range = range
-    })
+    update({ range })
   }
 
   return (
@@ -91,9 +89,7 @@ export function CalendarPopover({ children }: Props) {
               to: toDay.toDate()
             }
 
-            update(draft => {
-              draft.selected_date = nextSelected
-            })
+            update({ selected_date: nextSelected })
           }}
         />
       </PopoverContent>

@@ -19,10 +19,9 @@ export function useRangeflow(): RangeFlowApi {
     const { selected_date, update } = store.getState()
     const { size, left, right } = createSliderValues(range, selected_date)
 
-    update(draft => {
-      draft.range.from = range.from
-      draft.range.to = range.to
-      draft.slider = { size, left, right }
+    update({
+      range: { from: range.from, to: range.to },
+      slider: { size, left, right }
     })
 
     refsRef.current?.slider.root.current?.setLayout({

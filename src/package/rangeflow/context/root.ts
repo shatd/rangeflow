@@ -1,12 +1,13 @@
 import { createContext, type RefObject } from 'react'
 import type { DayPickerProps } from 'react-day-picker'
 import type { GroupImperativeHandle } from 'react-resizable-panels'
-import { immer } from 'zustand/middleware/immer'
 import { createStore, type StoreApi } from 'zustand/vanilla'
 
 import type { Bounds, DateDisabled, DateRange, RangeListItem, Slots } from '../types'
 
-type UpdaterFunction = (state: RangeFlowState) => void
+type Updater =
+  | Partial<RangeFlowState>
+  | ((state: RangeFlowState) => Partial<RangeFlowState>)
 
 export interface RangeFlowRefs {
   slider: {
@@ -35,20 +36,18 @@ export interface RangeFlowEvents {
 }
 
 export interface RangeFlowActions {
-  update: (fn: UpdaterFunction) => void
+  update: (updater: Updater) => void
   reset: () => void
 }
 
 export type RangeFlowStore = StoreApi<RangeFlowState & RangeFlowActions>
 
 export const createRangeFlowStore = (initialState: RangeFlowState): RangeFlowStore => {
-  return createStore<RangeFlowState & RangeFlowActions>()(
-    immer(set => ({
-      ...initialState,
-      update: fn => set(fn),
-      reset: () => set(() => structuredClone(initialState))
-    }))
-  )
+  return createStore<RangeFlowState & RangeFlowActions>()(set => ({
+    ...initialState,
+    update: updater => set(updater as Partial<RangeFlowState & RangeFlowActions>),
+    reset: () => set(structuredClone(initialState))
+  }))
 }
 
 interface RangeFlowContext {

@@ -63,10 +63,7 @@ export function RangeTabs() {
               'rangeflow-tab relative z-1 flex items-center px-1.5 py-1 focus:outline-none'
             )}
             onClick={() => {
-              update(draft => {
-                draft.range.from = item.from
-                draft.range.to = item.to
-              })
+              update({ range: { from: item.from, to: item.to } })
             }}
           >
             <span

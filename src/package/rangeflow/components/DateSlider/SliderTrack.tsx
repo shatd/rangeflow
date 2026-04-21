@@ -46,30 +46,38 @@ export function SliderTrack({ onHandleRef }: Props) {
   }
 
   const handleMoveBackward = () => {
-    update(draft => {
-      const next = dayjs(draft.range.from).subtract(daysInRange / 2, 'day')
+    update(state => {
+      const next = dayjs(state.range.from).subtract(daysInRange / 2, 'day')
+      const newRange = {
+        from:
+          disabledBefore && next.isBefore(disabledBefore)
+            ? dayjs(disabledBefore).toDate()
+            : next.toDate(),
+        to: state.range.to
+      }
+      const slider = createSliderValues(newRange, state.selected_date)
 
-      draft.range.from =
-        disabledBefore && next.isBefore(disabledBefore)
-          ? dayjs(disabledBefore).toDate()
-          : next.toDate()
+      updateSlider(slider)
 
-      draft.slider = createSliderValues(draft.range, draft.selected_date)
-
-      updateSlider(draft.slider)
+      return { range: newRange, slider }
     })
   }
 
   const handleMoveForward = () => {
-    update(draft => {
-      const next = dayjs(draft.range.to).add(daysInRange / 2, 'day')
+    update(state => {
+      const next = dayjs(state.range.to).add(daysInRange / 2, 'day')
+      const newRange = {
+        from: state.range.from,
+        to:
+          disabledAfter && next.isAfter(disabledAfter)
+            ? dayjs(disabledAfter).toDate()
+            : next.toDate()
+      }
+      const slider = createSliderValues(newRange, state.selected_date)
 
-      draft.range.to =
-        disabledAfter && next.isAfter(disabledAfter) ? dayjs(disabledAfter).toDate() : next.toDate()
+      updateSlider(slider)
 
-      draft.slider = createSliderValues(draft.range, draft.selected_date)
-
-      updateSlider(draft.slider)
+      return { range: newRange, slider }
     })
   }
 

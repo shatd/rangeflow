@@ -12,11 +12,9 @@ export function useUpdateSelectedDate() {
       const { range, update } = store.getState()
       const { size, left, right, from, to } = deriveSelectionFromLayout(layout, range)
 
-      update(draft => {
-        draft.slider.size = size
-        draft.slider.left = left
-        draft.slider.right = right
-        draft.selected_date = { from, to }
+      update({
+        slider: { size, left, right },
+        selected_date: { from, to }
       })
     },
     [store]
