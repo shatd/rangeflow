@@ -10,6 +10,7 @@ import {
 import type { DateRange } from '../types'
 import { clamp } from './clamp'
 import { interpolate } from './interpolate'
+import { normalizeDateRange } from './normalize-date-range'
 
 // Inverse of the `toVisual` mapping in createSliderValues: [MIN, 100] → [1, 100].
 const fromVisual = interpolate([SLIDER_THUMB_MIN_SIZE, 100], [1, 100])
@@ -21,20 +22,29 @@ export function deriveSelectionFromLayout(layout: Layout, range: DateRange) {
   const left = layout[SLIDER_LEFT_SPACER]
   const right = layout[SLIDER_RIGHT_SPACER]
 
-  const start = dayjs(range.from).startOf('day')
-  const daysInRange = dayjs(range.to).startOf('day').diff(start, 'day')
+  const { start, end } = normalizeDateRange(range)
+  const rawRangeDays = end.diff(start, 'day')
+  const daysInRange = Number.isFinite(rawRangeDays)
+    ? Math.max(rawRangeDays + 1, 1)
+    : 1
+
+  const safeSize = Number.isFinite(size) ? size : SLIDER_THUMB_MIN_SIZE
+  const safeLeft = Number.isFinite(left) ? left : 0
+  const safeRight = Number.isFinite(right)
+    ? right
+    : Math.max(100 - safeLeft - safeSize, 0)
+  const actualSize = fromVisual(safeSize)
+  const actualLeft = safeLeft + (safeSize - actualSize)
 
   // Undo the inflation createSliderValues applied to size (absorbed by the
   // left spacer). The right spacer is already unscaled, so no inversion there.
-  const actualSize = fromVisual(size)
-  const actualLeft = left + (size - actualSize)
 
   // Derive totalDays from the thumb width (the authoritative value), not from
   // the leftover between startDay and trailingDays — otherwise independent
   // rounding of the two spacers can flip the selection length by ±1 day
   // while the user is only translating the thumb across the track.
   const totalDays =
-    Math.round(size) <= SLIDER_THUMB_MIN_SIZE
+    Math.round(safeSize) <= SLIDER_THUMB_MIN_SIZE
       ? 1
       : Math.max(Math.round((actualSize * daysInRange) / 100), 1)
 

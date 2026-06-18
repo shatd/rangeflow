@@ -25,15 +25,28 @@ export function CalendarPopover({ children }: Props) {
   } = useRangeFlowRefs()
 
   const extendRange = () => {
-    let rangeFrom = dayjs(range.from)
-    let rangeTo = dayjs(range.to)
+    const rangeFromDate = dayjs(range.from)
+    const rangeToDate = dayjs(range.to)
+    const selectedFrom = dayjs(date.from)
+    const selectedTo = dayjs(date.to)
 
-    if (dayjs(date.from).isBefore(rangeFrom)) {
-      rangeFrom = dayjs(date.from).subtract(10, 'day')
+    let rangeFrom = rangeFromDate.isValid() ? rangeFromDate : dayjs()
+    let rangeTo = rangeToDate.isValid() ? rangeToDate : rangeFrom
+
+    if (rangeTo.isBefore(rangeFrom)) {
+      rangeTo = rangeFrom
     }
 
-    if (dayjs(date.to).isAfter(rangeTo)) {
-      rangeTo = dayjs(date.to).add(10, 'day')
+    if (selectedFrom.isValid() && selectedFrom.isBefore(rangeFrom)) {
+      rangeFrom = selectedFrom.subtract(10, 'day')
+    }
+
+    if (selectedTo.isValid() && selectedTo.isAfter(rangeTo)) {
+      rangeTo = selectedTo.add(10, 'day')
+    }
+
+    if (rangeTo.isBefore(rangeFrom)) {
+      rangeTo = rangeFrom.add(1, 'day')
     }
 
     return {
@@ -67,7 +80,7 @@ export function CalendarPopover({ children }: Props) {
       <PopoverTrigger className="cursor-pointer">{children}</PopoverTrigger>
       <PopoverContent align="start" sideOffset={10}>
         <Calendar
-          defaultMonth={date.from}
+          defaultMonth={dayjs(date.from).isValid() ? date.from : undefined}
           numberOfMonths={2}
           showOutsideDays={false}
           {...CalendarProps}
@@ -81,13 +94,18 @@ export function CalendarPopover({ children }: Props) {
               return
             }
 
-            const nextSelected = {
-              from: dayjs(nextDate.from).startOf('day').toDate(),
-              to: dayjs(nextDate.to).startOf('day').toDate()
+            const from = dayjs(nextDate.from).startOf('day')
+            const to = dayjs(nextDate.to).startOf('day')
+
+            if (!from.isValid() || !to.isValid()) {
+              return
             }
 
             update({
-              selected_date: nextSelected
+              selected_date: {
+                from: from.toDate(),
+                to: to.toDate()
+              }
             })
           }}
         />

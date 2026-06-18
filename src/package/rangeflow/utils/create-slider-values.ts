@@ -4,6 +4,7 @@ import { SLIDER_THUMB_MIN_SIZE } from '../constants/slider'
 import type { DateRange } from '../types'
 import { clamp } from './clamp'
 import { interpolate } from './interpolate'
+import { normalizeDateRange } from './normalize-date-range'
 
 const toVisual = interpolate([1, 100], [SLIDER_THUMB_MIN_SIZE, 100])
 
@@ -14,14 +15,31 @@ export function createSliderValues(
     to: Date
   }
 ) {
-  const rangeStart = dayjs(range.from).startOf('day')
-  const daysInRange = dayjs(range.to).startOf('day').diff(rangeStart, 'day')
+  const { start: rangeStart, end: rangeEnd } = normalizeDateRange(range)
 
-  const fromDay = dayjs(selected.from).startOf('day')
-  const toDay = dayjs(selected.to).startOf('day')
+  const rawRangeDays = rangeEnd.diff(rangeStart, 'day')
+  const daysInRange = Number.isFinite(rawRangeDays)
+    ? Math.max(rawRangeDays + 1, 1)
+    : 1
 
-  const pastDays = Math.max(fromDay.diff(rangeStart, 'day'), 0)
-  const selectedDays = toDay.diff(fromDay, 'day') + 1
+  const fromDay = dayjs(selected.from)
+  const toDay = dayjs(selected.to)
+  const safeFrom = fromDay.isValid() ? fromDay.startOf('day') : rangeStart
+  let safeTo = toDay.isValid() ? toDay.startOf('day') : safeFrom
+
+  if (safeTo.isBefore(safeFrom)) {
+    safeTo = safeFrom
+  }
+
+  const rawPastDays = safeFrom.diff(rangeStart, 'day')
+  const pastDays = Number.isFinite(rawPastDays)
+    ? Math.max(Math.min(rawPastDays, daysInRange - 1), 0)
+    : 0
+
+  const rawSelectedDays = safeTo.diff(safeFrom, 'day') + 1
+  const selectedDays = Number.isFinite(rawSelectedDays)
+    ? Math.max(Math.min(rawSelectedDays, daysInRange), 1)
+    : 1
 
   const rawSize = (selectedDays * 100) / daysInRange
   const rawLeft = (pastDays * 100) / daysInRange

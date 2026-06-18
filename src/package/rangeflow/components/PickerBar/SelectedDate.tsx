@@ -14,19 +14,18 @@ export function SelectedDate() {
 
     const start = dayjs(date.from)
     const end = dayjs(date.to)
-
     const formatter = start.isSame(end, 'year') ? 'DD MMM' : 'DD MMM YYYY'
 
     const labels = {
-      from: start.format(formatter),
-      to: end.format(formatter)
+      from: start.isValid() ? start.format(formatter) : 'Invalid Date',
+      to: end.isValid() ? end.format(formatter) : 'Invalid Date'
     }
 
-    if (today.isSame(start, 'day')) {
+    if (start.isValid() && today.isSame(start, 'day')) {
       labels.from = 'Today'
     }
 
-    if (today.isSame(end, 'day')) {
+    if (end.isValid() && today.isSame(end, 'day')) {
       labels.to = 'Today'
     }
 

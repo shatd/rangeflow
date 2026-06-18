@@ -11,7 +11,13 @@ export const SliderValue = memo(() => {
   const selected = useRangeFlowStore(state => state.selected_date)
 
   const label = useMemo(() => {
-    const days = dayjs(selected.to).diff(selected.from, 'day') + 1
+    const from = dayjs(selected.from)
+    const to = dayjs(selected.to)
+
+    const safeFrom = from.isValid() ? from : to
+    const safeTo = to.isValid() ? to : from
+    const rawDays = safeTo.isValid() && safeFrom.isValid() ? safeTo.diff(safeFrom, 'day') + 1 : 1
+    const days = Number.isFinite(rawDays) ? Math.max(rawDays, 1) : 1
 
     if (size < 10) {
       return `${days}D`

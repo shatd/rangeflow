@@ -1,11 +1,11 @@
 import clsx from 'clsx'
-import dayjs from 'dayjs'
 import { createElement, memo, useMemo } from 'react'
 
 import { OdometerText } from '../../animations/OdometerText'
 import { useDaysInRange } from '../../hooks/use-days-in-range'
 import { useRangeFlowSlots } from '../../hooks/use-rangeflow-slots'
 import { useRangeFlowStore } from '../../hooks/use-rangeflow-store'
+import { normalizeDateRange } from '../../utils/normalize-date-range'
 
 function getLabelFormat(daysInRange: number): string {
   if (daysInRange > 120) {
@@ -42,12 +42,13 @@ export const DateLabelsTrack = memo(() => {
 
   const labels = useMemo(() => {
     const format = getLabelFormat(daysInRange)
-    const count = getLabelCount(daysInRange)
-    const start = dayjs(range.from)
-    const totalMs = dayjs(range.to).diff(start)
+    const count = Math.max(getLabelCount(daysInRange), 1)
+    const { start, end } = normalizeDateRange(range)
+    const totalMs = end.diff(start)
+    const steps = Math.max(count - 1, 1)
 
     return Array.from({ length: count }, (_, i) => {
-      const ratio = i / (count - 1)
+      const ratio = i / steps
 
       return start.add(totalMs * ratio, 'ms').format(format)
     })
